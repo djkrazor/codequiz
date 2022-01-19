@@ -85,11 +85,26 @@ var timeLeft = 76;
 var timerInterval;
 var score = 0;
 var correct;
+
+
+// This function cycles through the object array containing the quiz questions to generate the questions and answers.
+function generateQuizQuestion(){
+    gameoverDiv.style.display = "none";
+    if (currentQuestionIndex === finalQuestionIndex){
+        // return showScore();
+    } 
+    var currentQuestion = quizQuestions[currentQuestionIndex];
+    questionsEl.innerHTML = "<p>" + currentQuestion.question + "</p>";
+    buttonA.innerHTML = currentQuestion.choiceA;
+    buttonB.innerHTML = currentQuestion.choiceB;
+    buttonC.innerHTML = currentQuestion.choiceC;
+    buttonD.innerHTML = currentQuestion.choiceD;
+};
 //Start Quiz function starts the TimeRanges, hides the start button, and displays the first quiz question.
 function startQuiz() {
     gameoverDiv.style.display = "none"; startQuizDiv.style.display = "none";
 
-    // generateQuizQuestion();
+    generateQuizQuestion();
 
     //Timer
     timerInterval = setInterval(function () {
@@ -100,8 +115,26 @@ function startQuiz() {
         if (timeLeft === 0) {
             // when time is equal to 0 to show score and stop timer 
             clearInterval(timerInterval);
-            showScore();
+            // showScore();
         }
     }, 1000);
     quizBody.style.display = "block";
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//This button starts the quiz!
+startQuizButton.addEventListener("click",startQuiz);
