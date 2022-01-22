@@ -1,5 +1,5 @@
 :root{
-    background-color: rgb(224, 233, 253);
+    background-color: rgba(207, 11, 11, 0.342);
     }
     
     li{
@@ -38,7 +38,7 @@
       button {
         display: inline-block;
         font-family: sans-serif;
-        background-color: #5e6df1;
+        background-color: red;
         border-radius: 10px;
         border: 3px double #cccccc;
         color: #eeeeee;
@@ -50,7 +50,7 @@
       }
     
       button:hover{
-          box-shadow: 4px 3px 6px #4450bd;
+          box-shadow: 4px 3px 6px black;
       }
     
     #startpage{
@@ -61,7 +61,7 @@
     
     #timer{
         font-family: sans-serif;
-        background-color: #5a69f0;
+        background-color: red;
         color: #eeeeee;
         font-size: x-large;
         text-shadow: .5px .5px black;
@@ -70,6 +70,13 @@
     #quiz {
         display: none;
     }
+    
+    #a, #b, #c, #d{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
     
     #result {
         display: none;
@@ -94,7 +101,7 @@
         border-color: silver;
         border-bottom-style: groove;
         padding-bottom: .3rem;
-        background: lightsteelblue;
+        background: black;
     }
     
     #highscore-header{
@@ -102,7 +109,7 @@
         justify-content: space-around;
         border-bottom-style: outset;
         margin-bottom: .5rem;
-        background-color: #5e6df1;
+        background-color: red;
         color: #eeeeee;
         font-family: sans-serif;
     }

@@ -18,37 +18,37 @@ var buttonB = document.getElementById("b");
 var buttonC = document.getElementById("c");
 var buttonD = document.getElementById("d");
 
-// Quiz question object
+// question 
 var quizQuestions = [{
-    question: "How many elements can you apply an 'ID' attribute to?",
-    choiceA: "As many as you want",
-    choiceB: "3",
-    choiceC: "1",
-    choiceD: "128",
+    question: "How do you get your website online?",
+    choiceA: "pick a domain name",
+    choiceB: "Register your domain name",
+    choiceC: "all the above",
+    choiceD: "upload your website",
     correctAnswer: "c"
 },
 {
-    question: "What does DOM stand for?",
-    choiceA: "Document Object Model",
-    choiceB: "Display Object Management",
-    choiceC: "Digital Ordinance Model",
-    choiceD: "Desktop Oriented Mode",
+    question: "Which one of these is not a programming language?",
+    choiceA: "Banana",
+    choiceB: "Ruby",
+    choiceC: "Java",
+    choiceD: "python",
     correctAnswer: "a"
 },
 {
-    question: "What is used primarily to add styling to a web page?",
-    choiceA: "HTML",
-    choiceB: "CSS",
-    choiceC: "Python",
-    choiceD: "React.js",
+    question: "Which of these do not run using computer program?",
+    choiceA: "train",
+    choiceB: "bike",
+    choiceC: "rocket",
+    choiceD: "car",
     correctAnswer: "b"
 },
 {
-    question: "What HTML tags are JavaScript code wrapped in?",
-    choiceA: "&lt;div&gt;",
-    choiceB: "&lt;link&gt;",
-    choiceC: "&lt;head&gt;",
-    choiceD: "&lt;script&gt;",
+    question: "What are people who write computer code called?",
+    choiceA: "manufactures",
+    choiceB: "Crytptographers",
+    choiceC: "professors",
+    choiceD: "Programmers",
     correctAnswer: "d"
 },
 {
@@ -60,19 +60,19 @@ var quizQuestions = [{
     correctAnswer: "a"
 },
 {
-    question: "What does WWW stand for?",
-    choiceA: "Web World Workings",
-    choiceB: "Weak Winter Wind",
-    choiceC: "World Wide Web",
-    choiceD: "Wendy Wants Waffles",
+    question: "What is computer coding?",
+    choiceA: "Radio show ",
+    choiceB: "list of functions",
+    choiceC: "tells the computer what to do ",
+    choiceD: "tv show ",
     correctAnswer: "c"
 },
 {
-    question: "What HTML attribute references an external JavaScript file?",
-    choiceA: "href",
-    choiceB: "src",
-    choiceC: "class",
-    choiceD: "index",
+    question: "What word describes instructions that computers need to do work?",
+    choiceA: "blueprint",
+    choiceB: "program",
+    choiceC: "synopsis",
+    choiceD: "agenda",
     correctAnswer: "b"
 },
 
@@ -81,7 +81,7 @@ var quizQuestions = [{
 // Other global variables 
 var finalQuestionIndex = quizQuestions.length;
 var currentQuestionIndex = 0;
-var timeLeft = 76;
+var timeLeft = 60;
 var timerInterval;
 var score = 0;
 var correct;
@@ -120,7 +120,7 @@ function startQuiz() {
     }, 1000);
     quizBody.style.display = "block";
 }
-// This function is the end page screen that displays your score after either completeing the quiz or upon timer run out
+// This function is at the end page screen that displays your score after either completeing the quiz or upon timer run out
 function showScore(){
     quizBody.style.display = "none"
     gameoverDiv.style.display = "flex";
@@ -138,17 +138,90 @@ function checkAnswer(answer){
         alert("That Is Correct!");
         currentQuestionIndex++;
         generateQuizQuestion();
-        //display in the results div that the answer is correct.
+        //display answer is correct
     }else if (answer !== correct && currentQuestionIndex !== finalQuestionIndex){
         alert("That Is Incorrect.")
         currentQuestionIndex++;
         generateQuizQuestion();
-        //display in the results div that the answer is wrong.
+        //display answer is incorrect.
+        // 10 seconds will decrease
+        timeLeft = timeLeft-10;
     }else{
         showScore();
     }
 }
 
+// On click of the submit button, we run the function highscore that saves and stringifies the array of high scores already saved in local stoage
+// as well as pushing the new user name and score into the array we are saving in local storage. Then it runs the function to show high scores.
+submitScoreBtn.addEventListener("click", function highscore(){
+
+
+    if(highscoreInputName.value === "") {
+        alert("Initials cannot be blank");
+        return false;
+    }else{
+        var savedHighscores = JSON.parse(localStorage.getItem("savedHighscores")) || [];
+        var currentUser = highscoreInputName.value.trim();
+        var currentHighscore = {
+            name : currentUser,
+            score : score
+        };
+
+        gameoverDiv.style.display = "none";
+        highscoreContainer.style.display = "flex";
+        highscoreDiv.style.display = "block";
+        endGameBtns.style.display = "flex";
+
+        savedHighscores.push(currentHighscore);
+        localStorage.setItem("savedHighscores", JSON.stringify(savedHighscores));
+        generateHighscores();
+
+    }
+
+});
+
+// This function clears the list for the high scores and generates a new high score list from local storage
+function generateHighscores(){
+    highscoreDisplayName.innerHTML = "";
+    highscoreDisplayScore.innerHTML = "";
+    var highscores = JSON.parse(localStorage.getItem("savedHighscores")) || [];
+    for (i=0; i<highscores.length; i++){
+        var newNameSpan = document.createElement("li");
+        var newScoreSpan = document.createElement("li");
+        newNameSpan.textContent = highscores[i].name;
+        newScoreSpan.textContent = highscores[i].score;
+        highscoreDisplayName.appendChild(newNameSpan);
+        highscoreDisplayScore.appendChild(newScoreSpan);
+    }
+}
+
+// This function displays the high scores page while hiding all of the other pages from 
+function showHighscore(){
+    startQuizDiv.style.display = "none"
+    gameoverDiv.style.display = "none";
+    highscoreContainer.style.display = "flex";
+    highscoreDiv.style.display = "block";
+    endGameBtns.style.display = "flex";
+
+    generateHighscores();
+}
+
+// This function clears the local storage of the high scores as well as clearing the text from the high score board
+function clearScore(){
+    window.localStorage.clear();
+    highscoreDisplayName.textContent = "";
+    highscoreDisplayScore.textContent = "";
+}
+
+// This function sets all the variables back to their original values and shows the home page to enable replay of the quiz
+function replayQuiz(){
+    highscoreContainer.style.display = "none";
+    gameoverDiv.style.display = "none";
+    startQuizDiv.style.display = "flex";
+    timeLeft = 76;
+    score = 0;
+    currentQuestionIndex = 0;
+}
 
 
 
